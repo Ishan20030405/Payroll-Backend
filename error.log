@@ -1,0 +1,8 @@
+2026-09-01T17:19:19.497Z - Error: Unknown column 'working_hours' in 'field list'
+    at Attendance.create (C:\Users\ishan\OneDrive\Desktop\2.3\backend\src\models\Attendance.js:11:35)
+    at exports.addManualAttendance (C:\Users\ishan\OneDrive\Desktop\2.3\backend\src\controllers\attendanceController.js:33:43)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-09-01T17:29:06.275Z - Error: Unknown column 'working_hours' in 'field list'
+    at Attendance.create (C:\Users\ishan\OneDrive\Desktop\2.3\backend\src\models\Attendance.js:11:35)
+    at exports.addManualAttendance (C:\Users\ishan\OneDrive\Desktop\2.3\backend\src\controllers\attendanceController.js:33:43)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
