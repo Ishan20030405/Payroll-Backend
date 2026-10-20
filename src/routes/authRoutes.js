@@ -9,6 +9,7 @@ router.post('/login', authController.login);
 router.post('/verify-otp', authController.verifyOTP);
 router.get('/me', authenticate, authController.getCurrentUser);
 router.post('/logout', authenticate, authController.logout);
+router.put('/change-password', authenticate, authController.changePassword);
 router.put('/update/:id', authenticate, authController.updateUser);
 
 // Register user from employee (Admin only)

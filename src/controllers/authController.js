@@ -361,6 +361,52 @@ exports.logout = async (req, res) => {
     res.status(200).json({ message: 'Logged out successfully' });
 };
 
+// Change password (Employee self-service)
+exports.changePassword = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ message: 'Current password and new password are required' });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({ message: 'New password must be at least 6 characters' });
+        }
+
+        // Get user from database
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Verify current password against database stored hash
+        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password_hash);
+        if (!isCurrentPasswordValid) {
+            return res.status(401).json({ message: 'Current password is incorrect' });
+        }
+
+        // Update password
+        const success = await User.update(userId, { password: newPassword });
+        if (!success) {
+            return res.status(500).json({ message: 'Failed to update password' });
+        }
+
+        await ActivityLog.create({
+            userId: userId,
+            action: 'Password Changed',
+            details: `User ${user.username} changed their password`,
+            ipAddress: req.ip
+        });
+
+        res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Change password error:', error);
+        res.status(500).json({ message: 'Failed to change password', error: error.message });
+    }
+};
+
 // Get all users (Admin only)
 exports.getAllUsers = async (req, res) => {
     try {
